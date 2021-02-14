@@ -175,7 +175,8 @@ local defaults; do
             return c
         end
 
-        local NotificationContainer = Instance.new("Frame")
+        function library:Notify(body, accept, duration)
+	local NotificationContainer = Instance.new("Frame")
         local Notification = Instance.new("Frame")
         local Line = Instance.new("Frame")
         local Title = Instance.new("TextLabel")
@@ -188,8 +189,6 @@ local defaults; do
         NotificationContainer.BackgroundTransparency = 1.000
         NotificationContainer.Position = UDim2.new(0.469696969, 0, 0.420382172, 0)
         NotificationContainer.Size = UDim2.new(0, 100, 0, 100)
-
-        function library:Notify(body, accept, duration)
             accept = accept or "Accept"
             duration = duration or math.huge
         
