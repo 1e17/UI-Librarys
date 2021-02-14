@@ -1,4 +1,5 @@
 local library = {count = 0, queue = {}, callbacks = {}, rainbowtable = {}, toggled = true, binds = {}};
+
 local defaults; do
     local dragger = {}; do
         local mouse        = game:GetService("Players").LocalPlayer:GetMouse();
@@ -172,6 +173,89 @@ local defaults; do
                 end
             end
             return c
+        end
+
+        local NotificationContainer = Instance.new("Frame")
+        local Notification = Instance.new("Frame")
+        local Line = Instance.new("Frame")
+        local Title = Instance.new("TextLabel")
+        local AcceptBox = Instance.new("TextButton")
+        local BodyText = Instance.new("TextLabel")
+
+        NotificationContainer.Name = "NotificationContainer"
+        NotificationContainer.Parent = library.container
+        NotificationContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        NotificationContainer.BackgroundTransparency = 1.000
+        NotificationContainer.Position = UDim2.new(0.469696969, 0, 0.420382172, 0)
+        NotificationContainer.Size = UDim2.new(0, 100, 0, 100)
+
+        function library:Notify(body, accept, duration)
+            accept = accept or "Accept"
+            duration = duration or math.huge
+        
+            Notification.Name = "Notification"
+            Notification.Parent = NotificationContainer
+            Notification.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Notification.Position = UDim2.new(-0.489973545, 0, -0.201976866, 0)
+            Notification.Size = UDim2.new(0, 197, 0, 139)
+        
+            Line.Name = "Line"
+            Line.Parent = Notification
+            Line.BackgroundColor3 = Color3.fromRGB(0, 255, 140)
+            Line.BorderColor3 = Color3.fromRGB(0, 255, 140)
+            Line.Position = UDim2.new(0, 0, 0.193939433, 0)
+            Line.Size = UDim2.new(0, 197, 0, 1)
+        
+            Title.Name = "Title"
+            Title.Parent = Notification
+            Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Title.BackgroundTransparency = 1.000
+            Title.Size = UDim2.new(0, 200, 0, 26)
+            Title.Font = Enum.Font.Code
+            Title.Text = "Notification"
+            Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Title.TextSize = 18.000
+        
+            AcceptBox.Name = "AcceptBox"
+            AcceptBox.Parent = Notification
+            AcceptBox.Active = false
+            AcceptBox.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            AcceptBox.BorderColor3 = Color3.fromRGB(60, 60, 60)
+            AcceptBox.Position = UDim2.new(0.0304568522, 0, 0.820143878, 0)
+            AcceptBox.Selectable = false
+            AcceptBox.Size = UDim2.new(0, 184, 0, 19)
+            AcceptBox.Font = Enum.Font.SourceSans
+            AcceptBox.Text = accept
+            AcceptBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+            AcceptBox.TextSize = 18.000
+        
+            BodyText.Name = "BodyText"
+            BodyText.Parent = Notification
+            BodyText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            BodyText.BackgroundTransparency = 1.000
+            BodyText.Position = UDim2.new(0, 0, 0.244299144, 0)
+            BodyText.Size = UDim2.new(0, 197, 0, 74)
+            BodyText.Font = Enum.Font.SourceSans
+            BodyText.Text = body
+            BodyText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            BodyText.TextSize = 18.000
+            BodyText.TextWrapped = true
+            
+            local Counter = 0
+            
+            coroutine.wrap(function()
+                while wait(1) do
+                    Counter = Counter + 1
+                    if Counter == duration then
+                        Notification:Destroy()
+                        break
+                    end
+                end
+            end)()
+            
+            AcceptBox.MouseButton1Click:Connect(function()
+                Notification:Destroy()
+            end)
         end
         
         function types:Toggle(name, options, callback)
