@@ -948,7 +948,9 @@ local defaults; do
     function library:Notify(body, accept, duration)
         accept = accept or "Accept"
         duration = duration or math.huge
-        
+        local NewScreen = Instance.new('ScreenGui')
+        NewScreen.Parent = game:GetService('CoreGui')
+        NewScreen.Name = 'N'
         local NotificationContainer = Instance.new("Frame")
         local Notification = Instance.new("Frame")
         local Line = Instance.new("Frame")
@@ -957,7 +959,7 @@ local defaults; do
         local BodyText = Instance.new("TextLabel")
     
         NotificationContainer.Name = "NotificationContainer"
-        NotificationContainer.Parent = self.Container
+        NotificationContainer.Parent = NewScreen
         NotificationContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         NotificationContainer.BackgroundTransparency = 1.000
         NotificationContainer.Position = UDim2.new(0.469696969, 0, 0.420382172, 0)
@@ -1017,14 +1019,14 @@ local defaults; do
             while wait(1) do
                 Counter = Counter + 1
                 if Counter == duration then
-                    Notification:Destroy()
+                    NewScreen:Destroy()
                     break
                 end
             end
         end)()
         
         AcceptBox.MouseButton1Click:Connect(function()
-            NotificationContainer:Destroy()
+            NewScreen:Destroy()
         end)
     end
 
